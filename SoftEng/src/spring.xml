@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+    <!-- database -->
+    <bean id="ds" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/subject evaluation" />
+        <property name="username" value="root" />
+        <property name="password" value="" />
+    </bean>
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">  
+        <property name="dataSource" ref="ds"></property>  
+    </bean>  
+     
+    <!-- dao -->
+    <bean id="UserDAO" class="com.example.dao.UserDAO">
+        <property name="jdbcTemplate" ref="jdbcTemplate" />
+    </bean>
+      
+    <bean id="SubjectDAO" class="com.example.dao.SubjectDAO">
+        <property name="jdbcTemplate" ref="jdbcTemplate" />
+        <property name="dataSource" ref="ds"/>
+    </bean>
+    <bean id="StudentDAO" class="com.example.dao.StudentDAO">
+        <property name="jdbcTemplate" ref="jdbcTemplate" />
+        <property name="dataSource" ref="ds"/>
+    </bean>
+    <!-- view -->
+    <bean id="Login" class="com.example.view.Login"/>
+    <bean id="DeanSubjectManage" class="com.example.view.DeanSubjectManage"/>
+    <bean id="AddSubject" class="com.example.view.AddSubject" />
+    <bean id="UpdateSubject" class="com.example.view.UpdateSubject"/>
+    <bean id="DeanPreRequisiteManage" class="com.example.view.DeanPreRequisiteManage"/>
+    <bean id="AddPreR" class="com.example.view.AddPreR"/>
+    <bean id="UpdatePreR" class="com.example.view.UpdatePreR"/>
+    <bean id="ViewStudentSubEval" class="com.example.view.ViewStudentSubEval"/>
+    <bean id="ViewEval" class="com.example.view.ViewEval"/>
+    <bean id="ViewStudentUneval" class="com.example.view.ViewStudentUneval"/> 
+    <bean id="StudentEvaluation" class="com.example.view.StudentEvaluation"/> 
+    
+    <!-- controller -->
+    <bean id="Controller" class="com.example.controller.Controller">
+        <property name="userdao" ref="UserDAO"/>
+        <property name="subjectdao" ref="SubjectDAO"/>
+        <property name="studentdao" ref="StudentDAO"/>
+        
+        <property name="view" >
+            <list>
+                <ref bean="Login"/>
+                <ref bean="DeanSubjectManage"/>
+                <ref bean="AddSubject"/>
+                <ref bean="UpdateSubject"/>
+                <ref bean="DeanPreRequisiteManage"/>
+                <ref bean="AddPreR"/>
+                <ref bean="UpdatePreR"/>
+                <ref bean="ViewStudentSubEval"/>
+                <ref bean="ViewEval"/>
+                <ref bean="ViewStudentUneval"/>
+                <ref bean="StudentEvaluation"/>
+            </list>
+        </property>
+          
+    </bean>
+</beans>
